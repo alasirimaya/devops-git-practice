@@ -1,36 +1,59 @@
-# 🔧 DevOps Git Practice
+# ⚙️ DevOps Training & Practice
 
-A hands-on repository created during my DevOps training to practice essential Git and GitHub workflows.
+A collection of hands-on exercises completed during my DevOps training, covering Git, Linux, Bash scripting, containerization, and cloud-based development.
 
----
-
-## 🎯 Purpose
-
-This repository was created to strengthen my understanding of version control and the Git workflow used in software development and DevOps environments.
+This repository documents practical work completed while learning and applying DevOps concepts in real environments.
 
 ---
 
-## 🛠️ Skills Practiced
+## 🛠️ Technologies & Tools
 
-- Creating and initializing Git repositories
-- Tracking files and making commits
-- Working with Git branches
-- Merging changes between branches
-- Connecting local repositories to GitHub
-- Pushing changes to remote repositories
-- Checking repository and working-tree status
-- Practicing basic Git/GitHub workflows
+- Git & GitHub
+- Linux
+- Bash
+- Docker / Podman
+- Python & Flask
+- Oracle Cloud Infrastructure (OCI)
 
 ---
 
-## 💻 Technologies
+## 📂 Projects & Exercises
 
-- Git
-- GitHub
-- Command Line / Terminal
+### 🐧 Linux System Monitoring
+
+A Bash-based system health monitoring exercise that reports:
+
+- CPU load and system uptime
+- RAM utilization
+- Disk usage
+- Automated warnings when disk usage exceeds a defined threshold
+- Command-line text processing using `awk` and `sed`
+
+📁 `linux/monitoring/`
 
 ---
 
-## 📚 Context
+### 🐳 Flask Multi-Stage Container
 
-This repository was created as part of my hands-on DevOps training and represents my introductory practice with Git-based version control and collaborative development workflows.
+A Flask application containerized and tested on an OCI Compute instance.
+
+The exercise includes:
+
+- Multi-stage Dockerfile
+- Python dependency management
+- Container image building
+- Image tagging
+- Container execution
+- Port mapping
+- Testing a containerized web service
+- Docker/Podman usage on a Linux cloud VM
+
+📁 `docker/flask-container/`
+
+---
+
+## ☁️ DevOps Training
+
+These exercises are part of my hands-on DevOps training, where I am gaining experience with Linux administration, cloud infrastructure, containerization, version control, and deployment workflows.
+
+The repository will continue to document selected technical exercises as I progress through the training.
