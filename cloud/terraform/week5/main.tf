@@ -44,3 +44,24 @@ resource "oci_core_subnet" "week5_private_subnet" {
   dns_label                  = "private"
   prohibit_public_ip_on_vnic = true
 }
+resource "oci_core_instance" "week5_compute" {
+  availability_domain = "hwQp:ME-RIYADH-1-AD-1"
+  compartment_id      = "ocid1.compartment.oc1..aaaaaaaav25xabthb7ghtnt34oklsz4tczzosmrwy7lfuwud6lmunr7pe44a"
+  display_name        = "week5-terraform-vm"
+  shape               = "VM.Standard.A1.Flex"
+
+  shape_config {
+    ocpus         = 1
+    memory_in_gbs = 6
+  }
+
+  create_vnic_details {
+    subnet_id        = oci_core_subnet.week5_public_subnet.id
+    assign_public_ip = true
+  }
+
+  source_details {
+    source_type = "image"
+    source_id   = "ocid1.image.oc1.me-riyadh-1.aaaaaaaag3q72icv57mhdtro3vyr7xootb4njk5mknanm6z7cifeqfvxplhq"
+  }
+}
