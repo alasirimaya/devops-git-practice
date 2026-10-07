@@ -18,4 +18,10 @@ resource "oci_core_instance" "week5_compute" {
     source_type = "image"
     source_id   = var.image_id
   }
+
+  metadata = {
+    ssh_authorized_keys = file("~/.ssh/id_ed25519.pub")
+    user_data           = base64encode(file("${path.module}/cloud-init.yaml"))
+  }
+
 }

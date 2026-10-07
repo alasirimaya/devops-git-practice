@@ -1,0 +1,20 @@
+#cloud-config
+
+package_update: true
+
+packages:
+  - git
+  - curl
+
+write_files:
+  - path: /home/opc/cloud-init-success.txt
+    content: |
+      Cloud-init bootstrap completed successfully.
+      This OCI instance was configured automatically by cloud-init.
+    owner: root:root
+    permissions: '0644'
+
+runcmd:
+  - echo "Cloud-init started" >> /var/log/cloud-init-custom.log
+  - systemctl enable --now firewalld
+  - echo "Cloud-init completed" >> /var/log/cloud-init-custom.log
