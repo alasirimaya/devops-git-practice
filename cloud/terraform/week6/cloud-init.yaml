@@ -5,16 +5,18 @@ package_update: true
 packages:
   - git
   - curl
+  - docker-engine
 
 write_files:
   - path: /home/opc/cloud-init-success.txt
     content: |
-      Cloud-init bootstrap completed successfully.
-      This OCI instance was configured automatically by cloud-init.
+      Cloud-init bootstrap completed.
+      Docker installation was requested automatically.
     owner: root:root
     permissions: '0644'
 
 runcmd:
-  - echo "Cloud-init started" >> /var/log/cloud-init-custom.log
-  - systemctl enable --now firewalld
-  - echo "Cloud-init completed" >> /var/log/cloud-init-custom.log
+  - [systemctl, enable, --now, docker]
+  - [systemctl, is-active, docker]
+  - [docker, --version]
+  - [sh, -c, 'echo "Cloud-init Docker setup completed" >> /var/log/cloud-init-custom.log']

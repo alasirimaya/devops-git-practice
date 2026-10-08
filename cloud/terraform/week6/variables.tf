@@ -42,7 +42,7 @@ variable "instance_ocpus" {
 variable "instance_memory_gbs" {
   description = "Memory allocated to the instance in GB"
   type        = number
-  default     = 6
+  default     = 2
 }
 
 variable "image_id" {
