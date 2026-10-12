@@ -1,0 +1,27 @@
+---
+- name: Update OCI servers and check dependencies
+  hosts: oci_servers
+  become: true
+
+  tasks:
+    - name: Update installed packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+        update_cache: true
+
+    - name: Check Git installation
+      ansible.builtin.command: git --version
+      register: git_check
+      changed_when: false
+
+    - name: Check Python installation
+      ansible.builtin.command: python3 --version
+      register: python_check
+      changed_when: false
+
+    - name: Display dependency versions
+      ansible.builtin.debug:
+        msg:
+          - "{{ git_check.stdout }}"
+          - "{{ python_check.stdout }}"
