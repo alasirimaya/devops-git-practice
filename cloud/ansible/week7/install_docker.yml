@@ -1,0 +1,5 @@
+---
+- name: Configure container runtime
+  hosts: all
+  roles:
+    - docker

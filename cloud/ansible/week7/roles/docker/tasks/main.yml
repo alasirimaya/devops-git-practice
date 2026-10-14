@@ -1,0 +1,15 @@
+---
+- name: Install container runtime packages
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ container_packages }}"
+    state: present
+
+- name: Verify container runtime
+  ansible.builtin.command: podman --version
+  register: podman_version
+  changed_when: false
+
+- name: Display runtime version
+  ansible.builtin.debug:
+    var: podman_version.stdout
