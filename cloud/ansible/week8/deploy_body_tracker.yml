@@ -1,0 +1,39 @@
+---
+- name: Deploy Body Tracker App
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Check Podman installation
+      command: podman --version
+      changed_when: false
+
+    - name: Check Podman Compose installation
+      command: podman-compose --version
+      changed_when: false
+
+    - name: Check application directory
+      stat:
+        path: "{{ ansible_env.HOME | default(lookup('env', 'HOME')) }}/body-tracker-app/docker-compose.yml"
+      register: compose_file
+
+    - name: Verify application exists
+      assert:
+        that:
+          - compose_file.stat.exists
+        fail_msg: "Body Tracker repository is missing."
+
+    - name: Start application containers
+      command: podman-compose up -d --build
+      args:
+        chdir: "{{ lookup('env', 'HOME') }}/body-tracker-app"
+
+    - name: Show running containers
+      command: podman ps
+      register: containers
+      changed_when: false
+
+    - name: Display container status
+      debug:
+        var: containers.stdout_lines
