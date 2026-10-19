@@ -25,5 +25,15 @@ jobs:
               print(f"Validated: {file}")
           PY
 
+      - name: Install TFLint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+
+      - name: Run TFLint
+        run: |
+          cd cloud/terraform/week6
+          tflint --init
+          tflint --format=compact
+
       - name: Pipeline success
         run: echo "CI pipeline completed successfully"
