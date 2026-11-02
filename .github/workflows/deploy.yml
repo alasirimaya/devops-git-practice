@@ -1,0 +1,25 @@
+name: Automated OCI Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to OCI VM via SSH
+        env:
+          SSH_KEY: ${{ secrets.OCI_SSH_KEY }}
+          OCI_HOST: ${{ secrets.OCI_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/oci_key
+          chmod 600 ~/.ssh/oci_key
+
+          ssh-keyscan -H "$OCI_HOST" >> ~/.ssh/known_hosts
+
+          ssh -i ~/.ssh/oci_key \
+            -o BatchMode=yes \
+            opc@"$OCI_HOST" \
+            'cd /home/opc/devops-git-practice && ./scripts/deploy.sh'
