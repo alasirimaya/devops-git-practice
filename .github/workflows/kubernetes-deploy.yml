@@ -1,0 +1,25 @@
+name: Kubernetes Deployment Update
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure Kubernetes access
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        run: |
+          mkdir -p ~/.kube
+          printf '%s' "$KUBE_CONFIG" > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      - name: Update Kubernetes deployment
+        run: |
+          kubectl set image deployment/week9-nginx \
+            nginx=nginx:stable
+          kubectl rollout status deployment/week9-nginx --timeout=120s
