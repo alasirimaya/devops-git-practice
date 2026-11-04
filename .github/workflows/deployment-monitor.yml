@@ -1,0 +1,40 @@
+name: Deployment Failure Monitoring
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deployment-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check deployment script
+        run: |
+          test -f scripts/deploy.sh
+          bash -n scripts/deploy.sh
+          echo "Deployment script validation passed"
+
+      - name: Report failure
+        if: failure()
+        run: |
+          echo "::error::Deployment validation failed!"
+          echo "Check the workflow logs for details."
+
+      - name: Report success
+        if: success()
+        run: |
+          echo "Deployment validation successful!"
+
+  notify:
+    needs: deployment-check
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deployment status notification
+        env:
+          RESULT: ${{ needs.deployment-check.result }}
+        run: |
+          echo "Deployment check status: $RESULT"
+          if [ "$RESULT" != "success" ]; then
+            echo "::error::Deployment check failed or was cancelled!"
+            exit 1
+          fi
