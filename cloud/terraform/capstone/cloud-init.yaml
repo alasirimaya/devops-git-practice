@@ -1,0 +1,22 @@
+#cloud-config
+
+package_update: true
+
+packages:
+  - git
+  - curl
+  - docker-engine
+
+write_files:
+  - path: /home/opc/cloud-init-success.txt
+    content: |
+      Cloud-init bootstrap completed.
+      Docker installation was requested automatically.
+    owner: root:root
+    permissions: '0644'
+
+runcmd:
+  - [systemctl, enable, --now, docker]
+  - [systemctl, is-active, docker]
+  - [docker, --version]
+  - [sh, -c, 'echo "Cloud-init Docker setup completed" >> /var/log/cloud-init-custom.log']
