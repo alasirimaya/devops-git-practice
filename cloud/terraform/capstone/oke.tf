@@ -3,6 +3,12 @@ resource "oci_containerengine_cluster" "capstone_oke" {
   name               = "capstone-oke-cluster"
   vcn_id             = oci_core_vcn.week5_vcn.id
   kubernetes_version = var.kubernetes_version
+  type               = "BASIC_CLUSTER"
+
+  endpoint_config {
+    is_public_ip_enabled = true
+    subnet_id            = oci_core_subnet.week5_public_subnet.id
+  }
 
   options {
     service_lb_subnet_ids = [

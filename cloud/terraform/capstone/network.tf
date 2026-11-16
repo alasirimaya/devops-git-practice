@@ -45,3 +45,19 @@ resource "oci_core_subnet" "week5_private_subnet" {
   prohibit_public_ip_on_vnic = true
 }
 
+
+resource "oci_core_nat_gateway" "capstone_nat" {
+  compartment_id = var.compartment_id
+  vcn_id         = oci_core_vcn.week5_vcn.id
+  display_name   = "capstone-nat"
+}
+
+resource "oci_core_route_table" "capstone_private_rt" {
+  compartment_id = var.compartment_id
+  vcn_id         = oci_core_vcn.week5_vcn.id
+
+  route_rules {
+    destination       = "0.0.0.0/0"
+    network_entity_id = oci_core_nat_gateway.capstone_nat.id
+  }
+}
