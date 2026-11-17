@@ -1,0 +1,22 @@
+---
+- name: Deploy capstone application
+  hosts: localhost
+  connection: local
+  become: false
+
+  tasks:
+    - name: Check Podman installation
+      ansible.builtin.command: podman --version
+      changed_when: false
+
+    - name: Check Podman Compose installation
+      ansible.builtin.command: podman-compose --version
+      changed_when: false
+
+    - name: Deploy application stack
+      ansible.builtin.command:
+        cmd: podman-compose up -d --build
+        chdir: "{{ playbook_dir }}/.."
+      environment:
+        POSTGRES_PASSWORD: "{{ lookup('env', 'POSTGRES_PASSWORD') }}"
+      no_log: true
